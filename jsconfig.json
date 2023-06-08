@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "jsx": "react",
+    "jsx": "react",
+    "target": "ES6",
+    "baseUrl": "./"
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
