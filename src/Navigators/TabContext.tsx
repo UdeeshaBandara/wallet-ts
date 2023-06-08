@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, FC, useContext, useRef, useState } from 'react';
 import moment from 'moment';
 
-const TabContext = createContext({
+const TabContext = createContext<any>({
   opened: false,
   toggleOpened: () => {},
   dateObject: {
@@ -14,12 +14,16 @@ const TabContext = createContext({
     selectedIndex: 0,
     selectedMonth: null,
   },
-  updateFilterState: data => {},
+  updateFilterState: () => {},
 });
 
-export const TabContextProvider = ({ children }) => {
-  const [opened, setOpened] = useState(false);
-  const [dateObject, setDateObject] = useState({
+interface Props {
+  children: any;
+}
+
+export const TabContextProvider: FC<Props> = ({ children }) => {
+  const [opened, setOpened] = useState<boolean>(false);
+  const [dateObject, setDateObject] = useState<any>({
     dateType: '',
     dateTo: null,
     dateFrom: null,
@@ -29,28 +33,39 @@ export const TabContextProvider = ({ children }) => {
     selectedIndex: 0,
     selectedMonth: moment(new Date()).format('MMMM'),
   });
-  const [filterValue, setFilterValue] = useState(
+  const [filterValue, setFilterValue] = useState<string>(
     moment(new Date()).format('MMMM'),
   );
-  const filterType = useRef(0);
+  const filterType = useRef<number>(0);
   const filterTimestamps = useRef([
     moment(new Date()).utc().startOf('month').format('X'),
     moment(new Date()).utc().endOf('month').format('X'),
   ]);
 
-  const isNewAccountAdded = useRef(false);
-  const isNewFromAccountAdded = useRef(false);
+  const isNewAccountAdded = useRef<boolean>(false);
+  const isNewFromAccountAdded = useRef<boolean>(false);
 
   const toggleOpened = () => {
     setOpened(!opened);
   };
-  const updateFilterState = data => {
+  const updateFilterState = (data: any) => {
     setDateObject(data);
   };
 
   return (
     <TabContext.Provider
-      value={{ opened, toggleOpened, dateObject, updateFilterState,filterType,filterValue,setFilterValue ,filterTimestamps,isNewAccountAdded,isNewFromAccountAdded}}>
+      value={{
+        opened,
+        toggleOpened,
+        dateObject,
+        updateFilterState,
+        filterType,
+        filterValue,
+        setFilterValue,
+        filterTimestamps,
+        isNewAccountAdded,
+        isNewFromAccountAdded,
+      }}>
       {children}
     </TabContext.Provider>
   );
